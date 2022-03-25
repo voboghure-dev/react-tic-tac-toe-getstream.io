@@ -35,8 +35,10 @@ app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const { users } = await serverClient.queryUsers({ name: username });
-    if (users.length) return res.json({ message: 'User not found' });
 
+    if (users.length === 0) return res.json({ message: 'User not found' });
+
+    const token = serverClient.createToken(users[0].id);
     const passwordMatch = await bcrypt.compare(
       password,
       users[0].hashedPassword
@@ -48,7 +50,7 @@ app.post('/login', async (req, res) => {
         firstName: users[0].firstName,
         lastName: users[0].lastName,
         username,
-        userId: users[0].userId,
+        userId: users[0].id,
       });
     }
   } catch (error) {

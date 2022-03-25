@@ -43,6 +43,7 @@ export default function SignUp() {
       />
       <input
         placeholder='Password'
+        type="password"
         onChange={(event) => {
           setUser({ ...user, password: event.target.value });
         }}
