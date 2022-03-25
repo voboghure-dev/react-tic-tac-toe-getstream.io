@@ -11,7 +11,6 @@ function App() {
   const token = cookies.get('token');
 
   if (token) {
-    console.log(token);
     client
       .connectUser(
         {
