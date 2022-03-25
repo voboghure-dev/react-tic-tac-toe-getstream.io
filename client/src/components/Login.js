@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Axios from 'axios';
 import Cookies from 'universal-cookie';
 
-export default function Login() {
+export default function Login({ setIsAuth }) {
   const cookies = new Cookies();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,14 +12,13 @@ export default function Login() {
       username,
       password,
     }).then((res) => {
-      console.log(res);
       const { firstName, lastName, username, token, userId } = res.data;
       cookies.set('token', token);
       cookies.set('userId', userId);
       cookies.set('username', username);
       cookies.set('firstName', firstName);
       cookies.set('lastName', lastName);
-      // setIsAuth(true);
+      setIsAuth(true);
     });
   };
 
@@ -34,7 +33,7 @@ export default function Login() {
       />
       <input
         placeholder='Password'
-        type="password"
+        type='password'
         onChange={(event) => {
           setPassword(event.target.value);
         }}
