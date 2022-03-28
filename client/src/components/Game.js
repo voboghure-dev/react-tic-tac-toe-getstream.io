@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Board from './Board';
 
 export default function Game({ channel }) {
   const [playersJoined, setPlayersJoined] = useState(
@@ -12,5 +13,11 @@ export default function Game({ channel }) {
   if (!playersJoined) {
     return <div>Waiting for other player to join...</div>;
   }
-  return <div>Game</div>;
+  return (
+    <div className='gameContainer'>
+      <Board />
+      {/* CHAT */}
+      {/* LEAVE GAME BUTTON */}
+    </div>
+  );
 }
