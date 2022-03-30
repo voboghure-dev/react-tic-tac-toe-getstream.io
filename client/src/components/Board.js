@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useChannelStateContext, useChatContext } from 'stream-chat-react';
+import { Patterns } from '../WinningPatterns';
 import Square from './Square';
 
-export default function Board() {
+export default function Board({ result, setResult }) {
   const [board, setBoard] = useState(['', '', '', '', '', '', '', '', '']);
   const [player, setPlayer] = useState('X');
   const [turn, setTurn] = useState('X');
+
   const { channel } = useChannelStateContext();
   const { client } = useChatContext();
+
+  useEffect(() => {
+    checkWin();
+    checkIfTie();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board]);
 
   const chooseSquare = async (square) => {
     if (turn === player && board[square] === '') {
@@ -26,6 +34,37 @@ export default function Board() {
           return value;
         })
       );
+    }
+  };
+
+  const checkWin = () => {
+    Patterns.forEach((currentPattern) => {
+      const firstPlayer = board[currentPattern[0]];
+      if (firstPlayer == '') return;
+      let foundWinningPattern = true;
+      currentPattern.forEach((index) => {
+        if (board[index] != firstPlayer) {
+          foundWinningPattern = false;
+        }
+      });
+
+      if (foundWinningPattern) {
+        alert('Winner', board[currentPattern[0]]);
+        setResult({ winner: board[currentPattern[0]], state: 'Won' });
+      }
+    });
+  };
+
+  const checkIfTie = () => {
+    let filled = true;
+    board.forEach((square) => {
+      if (square == '') {
+        filled = false;
+      }
+    });
+    if (filled) {
+      alert('Game Tied');
+      setResult({ winner: 'none', state: 'tie' });
     }
   };
 
