@@ -12,8 +12,8 @@ export default function Board({ result, setResult }) {
   const { client } = useChatContext();
 
   useEffect(() => {
-    checkWin();
     checkIfTie();
+    checkWin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [board]);
 
@@ -49,7 +49,6 @@ export default function Board({ result, setResult }) {
       });
 
       if (foundWinningPattern) {
-        alert('Winner', board[currentPattern[0]]);
         setResult({ winner: board[currentPattern[0]], state: 'Won' });
       }
     });
@@ -63,7 +62,6 @@ export default function Board({ result, setResult }) {
       }
     });
     if (filled) {
-      alert('Game Tied');
       setResult({ winner: 'none', state: 'tie' });
     }
   };

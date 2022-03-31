@@ -6,7 +6,12 @@ import bcrypt from 'bcrypt';
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 app.use(express.json());
 
 const api_key = 'cphv78cdm95v';
